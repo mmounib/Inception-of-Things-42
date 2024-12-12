@@ -8,7 +8,7 @@ spec:
   source: 
     repoURL: https://github.com/mmounib/k8s-p3.git
     targetRevision: HEAD 
-    path: p3/configs 
+    path: ./
   destination: 
     server: https://kubernetes.default.svc 
     namespace: dev 
