@@ -2,48 +2,32 @@ Vagrant.configure("2") do |config|
   # Base box configuration
 
   # Define the Kubernetes controller node
-  config.vm.define "araysse" do |controller|
+  config.vm.define "araysseS" do |controller|
     controller.vm.box = "boxomatic/alpine-3.20"
-    controller.vm.hostname = "serverS"
+    controller.vm.hostname = "araysseS"
     controller.vm.network "private_network", ip: "192.168.56.110"
-    controller.vm.synced_folder "./configs", "/vagrant_data", type: "virtualbox"
+    controller.vm.synced_folder "./confs", "/vagrant_data", type: "virtualbox"
     controller.vm.provider "virtualbox" do |vb|
       vb.memory = 1024 
       vb.cpus = 1 
     end
 
     # Provision the controller: install K3s and kubectl
-    controller.vm.provision "shell", inline: <<-SHELL
-      rm -rf /vagrant_data/token.txt
-      curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -
-        while [ ! -e  "/var/lib/rancher/k3s/server/node-token" ]
-        do
-          sleep 1
-        done
-      cat "/var/lib/rancher/k3s/server/node-token" > /vagrant_data/token.txt
-      sudo chmod 644 /etc/rancher/k3s/k3s.yaml
-    SHELL
+    controller.vm.provision "shell", path: "./scripts/server.sh"
   end
 
   # Define the Kubernetes worker node
-  config.vm.define "yel-aoun" do |worker|
+  config.vm.define "araysseSW" do |worker|
     worker.vm.box = "boxomatic/alpine-3.20"
-    worker.vm.hostname = "workerSW"
+    worker.vm.hostname = "araysseSW"
     worker.vm.network "private_network", ip: "192.168.56.111"
     worker.vm.provider "virtualbox" do |vb|
       vb.memory = 1024
       vb.cpus = 1
     end
-    worker.vm.synced_folder "./configs", "/vagrant_data", type: "virtualbox"
+    worker.vm.synced_folder "./confs", "/vagrant_data", type: "virtualbox"
 
     # Provision the worker: install K3s in agent mode and join it to the controller
-    worker.vm.provision "shell", inline: <<-SHELL
-      # Retrieve the token from the controller node for joining the cluster
-      # K3S_TOKEN=$(ssh -o StrictHostKeyChecking=no -i /vagrant/.vagrant/machines/araysse/virtualbox/private_key vagrant@192.168.56.110 "sudo cat /var/lib/rancher/k3s/server/node-token")
-
-      # Install K3s in agent mode, specifying the controller's IP and token
-      curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" K3S_URL=https://192.168.56.110:6443 K3S_TOKEN=$(cat /vagrant_data/token.txt) sh -
-      sleep 10
-    SHELL
+    worker.vm.provision "shell", path: "./scripts/worker.sh"
   end
 end
