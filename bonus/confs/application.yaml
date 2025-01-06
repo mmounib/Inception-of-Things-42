@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1 
 kind: Application 
 metadata: 
-  name: araysse
+  name: mmounib
   namespace: argocd 
 spec: 
   project: default
   source: 
-    repoURL: https://github.com/mmounib/k8s-p3.git
+    repoURL: http://gitlab-webservice-default.gitlab.svc.cluster.local:8181/root/k8s-bonus.git
     targetRevision: HEAD 
     path: ./
   destination: 
     server: https://kubernetes.default.svc 
-    namespace: dev 
+    namespace: devbonus 
   syncPolicy: 
     automated: 
       prune: true 
