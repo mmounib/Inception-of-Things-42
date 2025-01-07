@@ -9,6 +9,7 @@ sudo kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalanc
 
 sudo kubectl wait --for=condition=Ready pods --all --timeout=69420s -n argocd
     # kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
+sudo echo "=======================\n"
 sudo kubectl get pods -n argocd
 sudo echo "=======================\n"
 sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
