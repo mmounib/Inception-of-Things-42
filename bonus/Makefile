@@ -7,10 +7,12 @@ bonus:
 	sh scripts/setup-gitlab.sh
 
 clean:
+	kubectl delete all --all -n gitlab
 	sudo kubectl delete namespace $(NAME)
 	sudo kubectl delete namespace argocd
 	sudo kubectl delete namespace devbonus
 	sudo k3d cluster delete argocdIntegration
+	sudo docker system prune -af
 
 re : clean all
 
