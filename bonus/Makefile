@@ -6,6 +6,9 @@ all:
 bonus:
 	sh scripts/setup-gitlab.sh
 
+app:
+	sh scripts/app.sh
+
 clean:
 	kubectl delete all --all -n gitlab
 	sudo kubectl delete namespace $(NAME)

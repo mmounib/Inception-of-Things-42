@@ -1,38 +1,40 @@
-apiVersion: v1
-kind: Service
+# Service definition for app1
+apiVersion: v1  # Defines the API version for the Service object.
+kind: Service 
 metadata:
-  name: app1
+  name: app1  # The name of the service is 'app1'.
 spec:
   selector:
-    app: app1
+    app: app1  # This selector matches pods with the label 'app=app1' to route traffic to them.
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
+  - protocol: TCP  # The protocol used for communication is TCP.
+    port: 80  # The service will be exposed on port 80.
+    targetPort: 8080  # The service will forward traffic to port 8080 on the target pod.
 
 ---
 
-apiVersion: apps/v1
+# Deployment definition for app1
+apiVersion: apps/v1  # Defines the API version for the Deployment object.
 kind: Deployment
 metadata:
-  name: app1
+  name: app1  # The name of the deployment is 'app1'.
   labels:
-    app: app1
+    app: app1  # This label can be used for selecting this deployment.
 spec:
-  replicas: 1
+  replicas: 1  # Defines the number of pod replicas (in this case, it is 1).
   selector:
     matchLabels:
-      app: app1
+      app: app1  # This selector matches pods with the label 'app=app1'.
   template:
     metadata:
       labels:
-        app: app1
+        app: app1  # Label that will be assigned to the pods created by the deployment.
     spec:
       containers:
-        - name: testing
-          image: paulbouwer/hello-kubernetes:1.10
-          env:
-          - name: MESSAGE
-            value: "Hello There from app1"
+        - name: testing  # The name of the container is 'testing'.
+          image: paulbouwer/hello-kubernetes:1.10  # Specifies the container image to use.
+          env:  # Environment variables to set in the container.
+          - name: MESSAGE  # The name of the environment variable.
+            value: "Hello There from app1"  # The value of the MESSAGE environment variable.
           ports:
-            - containerPort: 8080
+            - containerPort: 8080  # Exposes port 8080 within the container for traffic.

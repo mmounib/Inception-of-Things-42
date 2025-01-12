@@ -47,5 +47,3 @@ sudo kubectl -n gitlab get secret gitlab-gitlab-initial-root-password -o jsonpat
 
 sudo kubectl port-forward service/gitlab-webservice-default -n gitlab 8000:8181 &
 
-sudo kubectl apply -f ../bonus/confs/application.yaml -n argocd
-

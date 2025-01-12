@@ -17,4 +17,4 @@ sleep 20
 kubectl get all
 
 
-# show ingress controller: kubectl describe ingress app1-ingress
+# show ingress controller: kubectl describe ingress apps-ingress
