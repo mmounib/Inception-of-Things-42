@@ -1,1 +1,0 @@
-{"virtualbox":{"/vagrant_data":{"type":"virtualbox","guestpath":"/vagrant_data","hostpath":"/home/mouadmounib/Inception-of-Things-42/p1/confs","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/mouadmounib/Inception-of-Things-42/p1","disabled":false,"__vagrantfile":true}}}
